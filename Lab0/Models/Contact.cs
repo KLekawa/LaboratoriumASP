@@ -18,4 +18,6 @@ public class Contact
     
     [DataType(DataType.Date)]
     public DateOnly BirthDate { get; set; }
+    
+    
 }

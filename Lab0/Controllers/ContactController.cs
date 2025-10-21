@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 using Lab0.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -5,10 +6,33 @@ namespace Lab0.Controllers;
 
 public class ContactController : Controller
 {
+    private static Dictionary<int, Contact> _contacts = new()
+    {
+        {
+            1, new Contact()
+            {
+                Id = 1,
+                Name = "Adam",
+                Email = "ad@mail.com",
+                BirthDate = new DateOnly(2000, 12, 1)
+            }
+        },
+        {
+            2, new Contact()
+            {
+                Id = 2,
+                Name = "marek",
+                Email = "marek@marek.pl",
+                BirthDate = DateOnly.FromDateTime(new DateTime(1980, 1, 27))
+            }
+        }
+    };
+
+    private static int i = 2;
     // GET
     public IActionResult Index()
     {
-        return View();
+        return View(_contacts.Values.ToList());
     }
 
     [HttpGet] // formularz
@@ -22,10 +46,23 @@ public class ContactController : Controller
     {
         if (ModelState.IsValid)
         {
-            //zapamiętanie nowego kontaktu
+            contact.Id = ++i;
+            _contacts.Add(contact.Id, contact);
             return RedirectToAction("Index");
         }
 
         return View(contact);
+    }
+
+    public IActionResult Details(int id)
+    {
+        if (_contacts.ContainsKey(id))
+        {
+        return View(_contacts[id]);
+        }
+        else
+        {
+            return NotFound();
+        }
     }
 }
