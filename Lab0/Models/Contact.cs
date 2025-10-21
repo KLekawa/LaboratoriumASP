@@ -13,6 +13,7 @@ public class Contact
     public string? Name { get; set; }
     
     [EmailAddress]
+    [Required]
     public string?  Email { get; set; }
     
     [DataType(DataType.Date)]
