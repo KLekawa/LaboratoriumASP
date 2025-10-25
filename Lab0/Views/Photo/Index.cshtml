@@ -1,0 +1,54 @@
+@model System.Collections.Generic.Dictionary<int,Lab0.Models.PhotoModel>
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>Lista zdjęć</h2>
+
+<table class="table">
+    <thead>
+    <th>Data</th>
+    <th>Opis</th>
+    <th>Aparat</th>
+    <th>Autor</th>
+    <th>Rozdzielczość</th>
+    <th>Format</th>
+    <th>Akcje</th>
+    </thead>
+    <tbody>
+    @{
+        foreach (var photo in Model)
+        {
+            <tr>
+                <td>
+                    @photo.Value.Date
+                </td>
+                <td>
+                    @photo.Value.Description
+                </td>
+                <td>
+                    @photo.Value.Camera
+                </td>
+                <td>
+                    @photo.Value.Author
+                </td>
+                <td>
+                    @photo.Value.Resolution
+                </td>
+                <td>
+                    @photo.Value.Format
+                </td>
+                <td>
+                    <a class="btn btn-info" asp-action="Details" asp-route-id="@photo.Value.Id">Szczegóły</a>
+                    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@photo.Value.Id">Edycja</a>
+                    <a class="btn btn-danger" asp-action="ConfirmDelete" asp-route-id="@photo.Value.Id">Usuń</a>
+                </td>
+            </tr>
+        }
+    }
+    </tbody>
+</table>
+
+<a asp-controller="Photo" asp-action="Create" class="btn btn-outline-primary">Dodaj</a>
