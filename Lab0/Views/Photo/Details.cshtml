@@ -1,0 +1,23 @@
+@model PhotoModel
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>Szczegóły</h2>
+
+<h3>Data:</h3>
+<p class="mb-4">@Model.Date</p>
+<h3>Opis:</h3>
+<p class="mb-4">@Model.Description</p>
+<h3>Aparat:</h3>
+<p class="mb-4">@Model.Camera</p>
+<h3>Autor:</h3>
+<p class="mb-4">@Model.Author</p>
+<h3>Rozdzielczość:</h3>
+<p class="mb-4">@Model.Resolution</p>
+<h3>Format:</h3>
+<p class="mb-4">@Model.Format</p>
+
+<a class="btn btn-outline-primary" asp-action="Index">Powrót do listy</a>

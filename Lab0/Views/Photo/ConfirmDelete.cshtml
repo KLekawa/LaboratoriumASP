@@ -1,0 +1,13 @@
+@model PhotoModel
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2 class="mb-2">Czy jesteś pewny że chcesz usunąć zdjęcie:</h2>
+<p>z dnia: @Model.Date </p>
+<p> @{if (Model.Description is not null) { @($"o opisie {Model.Description}"); }} </p>
+<p> od autora: @Model.Author</p>
+<a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.Id">Potwierdź</a>
+<a class="btn btn-outline-primary" asp-action="Index">Anuluj</a>
