@@ -1,4 +1,3 @@
-using System.Collections.Immutable;
 using Lab0.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,33 +5,17 @@ namespace Lab0.Controllers;
 
 public class ContactController : Controller
 {
-    private static Dictionary<int, Contact> _contacts = new()
-    {
-        {
-            1, new Contact()
-            {
-                Id = 1,
-                Name = "Adam",
-                Email = "ad@mail.com",
-                BirthDate = new DateOnly(2000, 12, 1)
-            }
-        },
-        {
-            2, new Contact()
-            {
-                Id = 2,
-                Name = "marek",
-                Email = "marek@marek.pl",
-                BirthDate = DateOnly.FromDateTime(new DateTime(1980, 1, 27))
-            }
-        }
-    };
+    private IContactService _contactService;
 
-    private static int i = 2;
+    public ContactController(IContactService contactService)
+    {
+        _contactService = contactService;
+    }
+
     // GET
     public IActionResult Index()
     {
-        return View(_contacts.Values.ToList());
+        return View(_contactService.GetContacts());
     }
 
     [HttpGet] // formularz
@@ -46,8 +29,7 @@ public class ContactController : Controller
     {
         if (ModelState.IsValid)
         {
-            contact.Id = ++i;
-            _contacts.Add(contact.Id, contact);
+            _contactService.CreateContact(contact);
             return RedirectToAction("Index");
         }
 
@@ -56,38 +38,65 @@ public class ContactController : Controller
 
     public IActionResult Details(int id)
     {
-        if (_contacts.ContainsKey(id))
+        var contact = _contactService.GetContactById(id);
+        if (contact is not null)
         {
-        return View(_contacts[id]);
+            return View(contact);
         }
-        else
-        {
-            return NotFound();
-        }
+        
+        return NotFound();
+
     }
     
     [HttpGet]
     public IActionResult Edit(int id)
     {
-        if (_contacts.ContainsKey(id))
+        var contact = _contactService.GetContactById(id);
+        if (contact is not null)
         {
-            return View(_contacts[id]);
+            return View(contact);
         }
-
+        
         return NotFound();
     }
     
     [HttpPost]
     public IActionResult Edit(Contact model)
     {
-
         if (!ModelState.IsValid)
         {
             return View(model);
         }
-        
-        _contacts[model.Id] = model;
-        
+
+        _contactService.UpdateContact(model);
         return RedirectToAction("Index");
+    }
+
+    [HttpGet]
+    public IActionResult Delete(int id)
+    {
+        var contact = _contactService.GetContactById(id);
+        if (contact is not null)
+        {
+            return View(contact);
+        }
+
+        return NotFound();
+    }
+
+    [HttpPost]
+    public IActionResult Delete(Contact contact)
+    {
+        var succes = _contactService.DeleteContactById(contact.Id);
+
+        if (succes)
+        {
+            return RedirectToAction("Index");
+        }
+        else
+        {
+            return BadRequest();
+        }
+        
     }
 }

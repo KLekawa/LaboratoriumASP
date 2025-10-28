@@ -1,0 +1,17 @@
+@model Contact
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2 class="mb-2">Czy jesteś pewny że chcesz usunąć kontakt:</h2>
+<p>Imie: @Model.Name </p>
+<p>Email: @Model.Email </p>
+
+<form method="post" asp-action="Delete">
+    <input asp-for="Id"/>
+    <button class="btn btn-danger" type="submit">Usuń</button>
+    <button class="btn btn-outline-primary" asp-action="Index">Anuluj</button>
+</form>
+

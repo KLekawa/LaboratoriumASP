@@ -103,10 +103,8 @@ public class PhotoController : Controller
             return View(model);
         }
         
-        if (_photos.ContainsKey(model.Id))
-        {
-            _photos[model.Id] = model;
-        }
+        _photos[model.Id] = model;
+
 
         return RedirectToAction("Index");
     }
