@@ -21,7 +21,7 @@
                 <td>@contact.Name</td>
                 <td>@contact.Email</td>
                 <td>
-                    <a class="btn btn-primary">Edytuj</a>
+                    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@contact.Id">Edytuj</a>
                     <a class="btn btn-success" asp-controller="Contact" asp-action="Details" asp-route-id="@contact.Id">Szczegóły</a>
                     <a class="btn btn-danger">Usuń</a>
                 </td>

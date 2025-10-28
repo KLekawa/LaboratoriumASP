@@ -65,4 +65,29 @@ public class ContactController : Controller
             return NotFound();
         }
     }
+    
+    [HttpGet]
+    public IActionResult Edit(int id)
+    {
+        if (_contacts.ContainsKey(id))
+        {
+            return View(_contacts[id]);
+        }
+
+        return NotFound();
+    }
+    
+    [HttpPost]
+    public IActionResult Edit(Contact model)
+    {
+
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+        }
+        
+        _contacts[model.Id] = model;
+        
+        return RedirectToAction("Index");
+    }
 }
