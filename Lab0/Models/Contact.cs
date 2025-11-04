@@ -22,5 +22,7 @@ public class Contact
     [DataType(DataType.Date)]
     public DateOnly BirthDate { get; set; }
     
+    public Organization? Organization { get; set; }
     
+    public int? OrganizationId { get; set; }
 }

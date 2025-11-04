@@ -10,7 +10,8 @@ public class Program
 
         // Add services to the container.
         builder.Services.AddControllersWithViews();
-        builder.Services.AddSingleton<IContactService, ContactServiceInMemory>();
+        builder.Services.AddTransient<IContactService, DbContactService>();
+        builder.Services.AddDbContext<AppDbContext>();
 
         var app = builder.Build();
 
